@@ -1,0 +1,20 @@
+# ─────────────────────────────────────────────────────────────
+# AuraGen — Cloudflare Workers Configuration
+# ─────────────────────────────────────────────────────────────
+# Deploy: wrangler publish
+# Dev:    wrangler dev
+
+name = "auragen-edge"
+main = "edge-worker.ts"
+compatibility_date = "2025-01-01"
+
+[vars]
+ORIGIN = "https://api.auragen.app"
+CACHE_TTL_FULL = "86400"
+CACHE_TTL_PREVIEW = "604800"
+CACHE_TTL_THUMBNAIL = "2592000"
+
+# Route configuration (update with your domain)
+# [[routes]]
+# pattern = "auragen.app/outputs/*"
+# zone_name = "auragen.app"

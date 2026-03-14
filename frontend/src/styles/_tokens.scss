@@ -1,0 +1,147 @@
+/* ─────────────────────────────────────────────
+ * AuraGen — SCSS Design Token System
+ * Liquid Glassmorphism Theme Tokens (Sprint 5)
+ * ───────────────────────────────────────────── */
+
+@use 'sass:map';
+@use 'sass:math';
+
+/* ── Breakpoints ────────────────────────────── */
+
+$breakpoints: (
+  tiny:    320px,
+  phone:   480px,
+  phablet: 600px,
+  tablet:  768px,
+  laptop:  1024px,
+  desktop: 1280px,
+  wide:    1536px,
+  ultra:   3840px,
+) !default;
+
+/// Responsive breakpoint mixin.
+/// Generates a min-width media query from the $breakpoints map.
+/// Usage: @include respond-to(tablet) { ... }
+@mixin respond-to($bp) {
+  @if map.has-key($breakpoints, $bp) {
+    @media (min-width: map.get($breakpoints, $bp)) {
+      @content;
+    }
+  } @else {
+    @error "Unknown breakpoint `#{$bp}`. Available: #{map.keys($breakpoints)}";
+  }
+}
+
+/* ── Fluid Typography (CSS Custom Properties) ── */
+/* All sizes scale fluidly between 320px and 3840px viewports. */
+
+:root {
+  --fs-micro:      clamp(0.625rem, 0.55rem + 0.25vw, 0.875rem);
+  --fs-caption:    clamp(0.75rem, 0.65rem + 0.35vw, 1rem);
+  --fs-body:       clamp(0.875rem, 0.75rem + 0.45vw, 1.125rem);
+  --fs-subheading: clamp(1rem, 0.85rem + 0.55vw, 1.5rem);
+  --fs-heading:    clamp(1.25rem, 1rem + 0.85vw, 2.25rem);
+  --fs-display:    clamp(1.75rem, 1.25rem + 1.5vw, 4rem);
+  --fs-hero:       clamp(2.5rem, 1.5rem + 3vw, 6rem);
+}
+
+/* ── Golden Ratio (1.618) Spacing Scale ─────── */
+/* Base unit: 4px. Each step multiplies by the golden ratio (1.618). */
+
+$golden-ratio: 1.618;
+
+$space-0:  0;                               /*    0px */
+$space-1:  4px;                             /*    4px */
+$space-2:  6px;                             /*    4 x 1.618^1 ≈  6px */
+$space-3:  10px;                            /*    4 x 1.618^2 ≈ 10px */
+$space-4:  17px;                            /*    4 x 1.618^3 ≈ 17px */
+$space-5:  27px;                            /*    4 x 1.618^4 ≈ 27px */
+$space-6:  44px;                            /*    4 x 1.618^5 ≈ 44px */
+$space-7:  71px;                            /*    4 x 1.618^6 ≈ 71px */
+$space-8:  115px;                           /*    4 x 1.618^7 ≈115px */
+$space-9:  186px;                           /*    4 x 1.618^8 ≈186px */
+$space-10: 300px;                           /*    4 x 1.618^9 ≈300px */
+
+$spaces: (
+  0:  $space-0,
+  1:  $space-1,
+  2:  $space-2,
+  3:  $space-3,
+  4:  $space-4,
+  5:  $space-5,
+  6:  $space-6,
+  7:  $space-7,
+  8:  $space-8,
+  9:  $space-9,
+  10: $space-10,
+);
+
+/// Returns the spacing value for a given level (0–10).
+/// Usage: padding: space(4);  → 17px
+@function space($level) {
+  @if map.has-key($spaces, $level) {
+    @return map.get($spaces, $level);
+  } @else {
+    @error "Invalid spacing level `#{$level}`. Available: 0–10.";
+  }
+}
+
+/* ── Color Tokens ───────────────────────────── */
+
+// Backgrounds
+$color-dark:            #0a0a0f;
+$color-surface:         #12121a;
+$color-elevated:        #1a1a28;
+
+// Accent palette
+$color-accent:          #6366f1;
+$color-accent-light:    #818cf8;
+$color-accent-dark:     #4f46e5;
+$color-secondary:       #8b5cf6;
+
+// Semantic colors
+$color-success:         #10b981;
+$color-warning:         #f59e0b;
+$color-error:           #f43f5e;
+
+// Text hierarchy
+$color-text-primary:    rgba(255, 255, 255, 0.92);
+$color-text-secondary:  rgba(255, 255, 255, 0.56);
+$color-text-tertiary:   rgba(255, 255, 255, 0.32);
+
+// Glass alphas
+$color-glass-light:     rgba(255, 255, 255, 0.03);
+$color-glass-medium:    rgba(255, 255, 255, 0.06);
+$color-glass-heavy:     rgba(255, 255, 255, 0.12);
+
+// Borders
+$color-border:          rgba(255, 255, 255, 0.08);
+
+/* ── Transition Tokens ──────────────────────── */
+
+// Easing curves
+$ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+$ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+$ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+// Durations
+$dur-fast:   150ms;
+$dur-normal: 300ms;
+$dur-slow:   500ms;
+
+/* ── Glass Blur Tokens ──────────────────────── */
+
+$blur-xs: 2px;
+$blur-sm: 12px;
+$blur-md: 20px;
+$blur-lg: 30px;
+$blur-xl: 40px;
+
+/* ── Border-Radius Tokens ───────────────────── */
+
+$radius-sm:   0.375rem;
+$radius-md:   0.5rem;
+$radius-lg:   0.75rem;
+$radius-xl:   1rem;
+$radius-2xl:  1.5rem;
+$radius-full: 9999px;

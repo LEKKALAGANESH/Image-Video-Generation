@@ -1,0 +1,101 @@
+/* ─────────────────────────────────────────────
+ * AuraGen — Grid Layout System
+ * Responsive grid with golden-ratio spacing,
+ * span utilities, and Neural Pulse scrollbar.
+ * ───────────────────────────────────────────── */
+
+@use 'tokens' as *;
+
+/* ── Main Grid ─────────────────────────────── */
+
+.aura-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: space(4);
+  padding: space(4);
+
+  /* ── Responsive Breakpoints ──────────────── */
+
+  @include respond-to(tiny) {
+    grid-template-columns: 1fr;
+    gap: space(3);
+  }
+
+  @include respond-to(phone) {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: space(3);
+  }
+
+  @include respond-to(tablet) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: space(4);
+  }
+
+  @include respond-to(laptop) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: space(4);
+  }
+
+  @include respond-to(desktop) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: space(5);
+  }
+
+  @include respond-to(wide) {
+    grid-template-columns: repeat(5, 1fr);
+    gap: space(5);
+  }
+
+  @include respond-to(ultra) {
+    grid-template-columns: repeat(6, 1fr);
+    gap: space(6);
+  }
+}
+
+/* ── Column Span Utilities ─────────────────── */
+
+.aura-col-span-2 { grid-column: span 2; }
+.aura-col-span-3 { grid-column: span 3; }
+.aura-col-span-4 { grid-column: span 4; }
+.aura-col-span-5 { grid-column: span 5; }
+.aura-col-span-6 { grid-column: span 6; }
+
+/* ── Row Span Utilities ────────────────────── */
+
+.aura-row-span-2 { grid-row: span 2; }
+.aura-row-span-3 { grid-row: span 3; }
+
+/* ── Neural Pulse Scrollbar ────────────────── */
+
+.aura-scroll {
+  overflow-y: auto;
+
+  // Firefox support
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.2) transparent;
+
+  // Webkit scrollbar — width scales: 6px on mobile → 12px on 4K
+  &::-webkit-scrollbar {
+    width: clamp(6px, 0.4vw + 4px, 12px);
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.2);
+    border-radius: 9999px;
+    // Neural Pulse animation on the scrollbar thumb
+    animation: scrollbar-pulse 3s ease-in-out infinite;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: rgba(99, 102, 241, 0.4);
+  }
+}
+
+@keyframes scrollbar-pulse {
+  0%, 100% { background-color: rgba(99, 102, 241, 0.2); }
+  50%      { background-color: rgba(99, 102, 241, 0.35); }
+}

@@ -1,0 +1,303 @@
+/* ─────────────────────────────────────────────
+ * AuraGen — Component Library
+ * Liquid Glassmorphism UI Components (Sprint 5)
+ * ───────────────────────────────────────────── */
+
+@use 'tokens' as *;
+
+
+/* ── 1. Glass Card ─────────────────────────────
+ * `.aura-card` — Frosted glass panel with depth
+ * Variants: --tinted, --interactive
+ * ───────────────────────────────────────────── */
+
+.aura-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur($blur-md);
+  -webkit-backdrop-filter: blur($blur-md);
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  padding: space(4);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition: all $dur-normal $ease-smooth;
+
+  /* ── Tinted variant — accent-colored glass ── */
+  &--tinted {
+    background: rgba($color-accent, 0.06);
+    border-color: rgba($color-accent, 0.12);
+    box-shadow:
+      0 8px 32px rgba($color-accent, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* ── Interactive variant — hover-ready card ── */
+  &--interactive {
+    cursor: pointer;
+
+    &:hover {
+      border-color: rgba($color-accent-light, 0.24);
+      transform: translateY(-2px);
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba($color-accent, 0.1),
+        0 0 24px rgba($color-accent, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    &:active {
+      transform: translateY(0);
+      transition-duration: $dur-fast;
+    }
+  }
+}
+
+
+/* ── 2. Glassmorphism Button ───────────────────
+ * `.aura-btn` — Glass-style interactive button
+ * Variants: --primary, --ghost, --sm, --lg
+ * ───────────────────────────────────────────── */
+
+.aura-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: space(2);
+  background: $color-glass-light;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: space(2) space(4);
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: $color-text-primary;
+  cursor: pointer;
+  user-select: none;
+  transition: all $dur-normal $ease-smooth;
+  backdrop-filter: blur($blur-sm);
+  -webkit-backdrop-filter: blur($blur-sm);
+
+  &:hover {
+    background: $color-glass-medium;
+    transform: scale(1.02);
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.25),
+      0 0 12px rgba($color-accent, 0.1);
+  }
+
+  &:active {
+    transform: scale(0.98);
+    transition-duration: $dur-fast;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba($color-accent, 0.5);
+    outline-offset: 2px;
+  }
+
+  /* ── Primary variant — solid accent fill ──── */
+  &--primary {
+    background: $color-accent;
+    border-color: $color-accent;
+    color: #fff;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+
+    &:hover {
+      background: $color-accent-light;
+      border-color: $color-accent-light;
+      /* Premium Feature — Responsive Glow:
+         Glow radius scales with viewport width */
+      box-shadow:
+        0 0 clamp(8px, 1vw + 4px, 30px) rgba($color-accent, 0.4),
+        0 0 clamp(20px, 3vw + 10px, 80px) rgba($color-accent, 0.15);
+    }
+
+    &:active {
+      background: $color-accent-dark;
+      border-color: $color-accent-dark;
+    }
+  }
+
+  /* ── Ghost variant — transparent outline ──── */
+  &--ghost {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+
+    &:hover {
+      background: $color-glass-light;
+    }
+  }
+
+  /* ── Size: Small ─────────────────────────── */
+  &--sm {
+    padding: space(1) space(3);
+    font-size: var(--fs-micro);
+    border-radius: $radius-md;
+  }
+
+  /* ── Size: Large ─────────────────────────── */
+  &--lg {
+    padding: space(3) space(5);
+    font-size: var(--fs-body);
+    border-radius: $radius-xl;
+  }
+}
+
+
+/* ── 3. Tab Navigation ─────────────────────────
+ * `.aura-tabs` — Glass tabstrip container
+ * `.aura-tab`  — Individual tab items
+ * ───────────────────────────────────────────── */
+
+.aura-tabs {
+  display: flex;
+  gap: space(1);
+  background: $color-glass-light;
+  backdrop-filter: blur($blur-sm);
+  -webkit-backdrop-filter: blur($blur-sm);
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  padding: space(1);
+}
+
+.aura-tab {
+  padding: space(2) space(4);
+  border-radius: $radius-lg;
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  color: $color-text-secondary;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: all $dur-normal $ease-smooth;
+
+  &:hover {
+    background: $color-glass-medium;
+    color: $color-text-primary;
+  }
+
+  /* ── Active tab state ────────────────────── */
+  &--active {
+    background: $color-glass-medium;
+    color: $color-text-primary;
+    border-color: $color-border;
+    box-shadow:
+      inset 0 -2px 0 $color-accent,
+      0 0 8px rgba($color-accent, 0.08);
+  }
+}
+
+
+/* ── 4. Responsive Headings ────────────────────
+ * `.aura-heading` — Fluid typography headings
+ * Modifiers: --hero, --display, --h1, --h2, --h3
+ * Optional: --glow for accent text-shadow
+ * ───────────────────────────────────────────── */
+
+.aura-heading {
+  color: $color-text-primary;
+  margin: 0;
+  padding: 0;
+
+  /* ── Hero ────────────────────────────────── */
+  &--hero {
+    font-size: var(--fs-hero);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  /* ── Display ─────────────────────────────── */
+  &--display {
+    font-size: var(--fs-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  /* ── H1 ──────────────────────────────────── */
+  &--h1 {
+    font-size: var(--fs-heading);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+
+  /* ── H2 ──────────────────────────────────── */
+  &--h2 {
+    font-size: var(--fs-subheading);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.35;
+  }
+
+  /* ── H3 ──────────────────────────────────── */
+  &--h3 {
+    font-size: var(--fs-body);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  /* ── Glow modifier — accent text-shadow ─── */
+  &--glow {
+    text-shadow:
+      0 0 10px rgba($color-accent, 0.4),
+      0 0 32px rgba($color-accent, 0.15);
+  }
+}
+
+
+/* ── 5. Glass Input Field ──────────────────────
+ * `.aura-input` — Frosted glass text input
+ * Variant: --lg for enlarged inputs
+ * ───────────────────────────────────────────── */
+
+.aura-input {
+  display: block;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  padding: space(3) space(4);
+  font-size: var(--fs-body);
+  color: $color-text-primary;
+  outline: none;
+  transition: all $dur-normal $ease-smooth;
+  backdrop-filter: blur($blur-sm);
+  -webkit-backdrop-filter: blur($blur-sm);
+
+  &::placeholder {
+    color: $color-text-tertiary;
+  }
+
+  &:focus {
+    border-color: rgba($color-accent, 0.4);
+    box-shadow: 0 0 0 3px rgba($color-accent, 0.1);
+  }
+
+  /* ── Large variant ───────────────────────── */
+  &--lg {
+    padding: space(4) space(5);
+    font-size: var(--fs-subheading);
+    border-radius: $radius-2xl;
+  }
+}
+
+
+/* ── 6. Form Label ─────────────────────────────
+ * `.aura-label` — Uppercase micro-label for forms
+ * ───────────────────────────────────────────── */
+
+.aura-label {
+  display: block;
+  font-size: var(--fs-caption);
+  font-weight: 500;
+  color: $color-text-secondary;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin-bottom: space(1);
+}

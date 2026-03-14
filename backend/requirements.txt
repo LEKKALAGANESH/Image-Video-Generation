@@ -1,0 +1,44 @@
+# ─────────────────────────────────────────────────────────────
+# AuraGen — Backend Dependencies
+# ─────────────────────────────────────────────────────────────
+# Intel Iris Xe / DirectML compatible.
+# No CUDA-specific packages (bitsandbytes, xformers).
+# Standard PyTorch (CPU) + torch-directml for GPU acceleration.
+# ─────────────────────────────────────────────────────────────
+
+# --- Core AI Engine (DirectML + CPU) ---
+torch>=2.5.1
+torchvision>=0.20.0
+torchaudio>=2.5.1
+
+# --- DirectML (Intel/AMD/Qualcomm GPU on Windows) ---
+# NOTE: torch-directml requires Python <=3.12 as of 2026-03.
+# On Python 3.14, DirectML is unavailable; the backend falls back to CPU.
+# Install manually on supported Python: pip install torch-directml
+# torch-directml>=0.2.0
+
+# --- Optimization Tools (CUDA-agnostic) ---
+accelerate>=0.30.0
+huggingface_hub[cli]>=0.25.0
+
+# --- Backend Infrastructure ---
+fastapi[all]
+uvicorn[standard]==0.34.0
+python-multipart
+
+# --- Diffusion & ML ---
+diffusers>=0.32.0
+transformers>=4.47.0
+safetensors>=0.4.0
+Pillow>=10.0.0
+numpy>=1.24.0
+
+# --- Networking & IO ---
+websockets==14.1
+pydantic==2.10.3
+pydantic-settings==2.7.0
+aiofiles>=24.1.0
+httpx>=0.27.0
+
+# --- Segmentation ---
+segment-anything-2>=0.1.0

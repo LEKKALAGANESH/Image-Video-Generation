@@ -1,0 +1,468 @@
+/* ─────────────────────────────────────────────
+ * AuraGen — Liquid Glassmorphism Theme System
+ * Advanced CSS with Houdini @property declarations
+ * ───────────────────────────────────────────── */
+
+/* ── Houdini @property declarations ──────────── */
+
+@property --neural-glow {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: rgba(99, 102, 241, 0.5);
+}
+
+@property --glass-blur {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 20px;
+}
+
+@property --morph-radius {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 50%;
+}
+
+@property --depth-scale {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+/* ── SVG noise filter (inlined for glass-noise) ── */
+
+.glass-noise-filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* ── Bento Box Grid System ───────────────────── */
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  width: 100%;
+}
+
+.bento-cell-sm {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.bento-cell-md {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.bento-cell-lg {
+  grid-column: span 2;
+  grid-row: span 1;
+}
+
+.bento-cell-xl {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+@media (min-width: 640px) {
+  .bento-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .bento-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .bento-grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* ── Advanced Backdrop-Filter Layers ─────────── */
+
+.glass-frosted {
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow:
+    0 16px 64px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.glass-tinted {
+  background: rgba(99, 102, 241, 0.06);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(99, 102, 241, 0.12);
+  box-shadow:
+    0 8px 32px rgba(99, 102, 241, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-noise {
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass-prismatic {
+  position: relative;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.glass-prismatic::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(99, 102, 241, 0.15),
+    rgba(167, 139, 250, 0.1),
+    rgba(236, 72, 153, 0.08),
+    rgba(251, 191, 36, 0.06),
+    rgba(52, 211, 153, 0.08),
+    rgba(96, 165, 250, 0.1),
+    rgba(99, 102, 241, 0.15)
+  );
+  opacity: 0.6;
+  animation: prismatic-rotate 8s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.glass-prismatic::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: rgba(10, 10, 15, 0.85);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.glass-prismatic > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes prismatic-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Morphing Border Animation ───────────────── */
+
+.morphing-border {
+  --morph-radius: 50%;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  animation: morph-shape 8s ease-in-out infinite;
+  transition: border-radius 0.5s ease;
+}
+
+@keyframes morph-shape {
+  0% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+  25% {
+    border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+  }
+  50% {
+    border-radius: 50% 60% 30% 60% / 30% 50% 70% 50%;
+  }
+  75% {
+    border-radius: 40% 60% 50% 40% / 60% 40% 60% 50%;
+  }
+  100% {
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  }
+}
+
+/* ── Neural Glow System ──────────────────────── */
+
+.neural-glow-sm {
+  --neural-glow: rgba(99, 102, 241, 0.5);
+  box-shadow:
+    0 0 8px var(--neural-glow),
+    0 0 24px color-mix(in srgb, var(--neural-glow) 40%, transparent);
+  text-shadow:
+    0 0 6px var(--neural-glow),
+    0 0 16px color-mix(in srgb, var(--neural-glow) 30%, transparent);
+}
+
+.neural-glow-md {
+  --neural-glow: rgba(99, 102, 241, 0.5);
+  box-shadow:
+    0 0 16px var(--neural-glow),
+    0 0 48px color-mix(in srgb, var(--neural-glow) 40%, transparent),
+    0 0 80px color-mix(in srgb, var(--neural-glow) 15%, transparent);
+  text-shadow:
+    0 0 10px var(--neural-glow),
+    0 0 32px color-mix(in srgb, var(--neural-glow) 30%, transparent);
+}
+
+.neural-glow-lg {
+  --neural-glow: rgba(99, 102, 241, 0.5);
+  box-shadow:
+    0 0 24px var(--neural-glow),
+    0 0 64px color-mix(in srgb, var(--neural-glow) 50%, transparent),
+    0 0 120px color-mix(in srgb, var(--neural-glow) 20%, transparent),
+    0 0 200px color-mix(in srgb, var(--neural-glow) 8%, transparent);
+  text-shadow:
+    0 0 14px var(--neural-glow),
+    0 0 48px color-mix(in srgb, var(--neural-glow) 40%, transparent),
+    0 0 80px color-mix(in srgb, var(--neural-glow) 15%, transparent);
+}
+
+/* ── Depth System ────────────────────────────── */
+
+.depth-0 {
+  --depth-scale: 1;
+  transform: scale(1);
+  filter: blur(0px);
+  opacity: 1;
+  box-shadow: none;
+  z-index: 0;
+}
+
+.depth-1 {
+  --depth-scale: 1.01;
+  transform: scale(1.01);
+  filter: blur(0px);
+  opacity: 1;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    0 1px 3px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.depth-2 {
+  --depth-scale: 1.02;
+  transform: scale(1.02);
+  filter: blur(0px);
+  opacity: 0.98;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.25),
+    0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 20;
+}
+
+.depth-3 {
+  --depth-scale: 1.04;
+  transform: scale(1.04);
+  filter: blur(0.5px);
+  opacity: 0.96;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    0 4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 30;
+}
+
+.depth-4 {
+  --depth-scale: 1.06;
+  transform: scale(1.06);
+  filter: blur(1px);
+  opacity: 0.94;
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.45),
+    0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 40;
+}
+
+.depth-5 {
+  --depth-scale: 1.08;
+  transform: scale(1.08);
+  filter: blur(1.5px);
+  opacity: 0.92;
+  box-shadow:
+    0 24px 64px rgba(0, 0, 0, 0.55),
+    0 12px 32px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
+  z-index: 50;
+}
+
+/* ── Futuristic Utility Classes ──────────────── */
+
+/* CRT scan lines overlay */
+.scanline-overlay {
+  position: relative;
+}
+
+.scanline-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 2;
+  animation: scan-line-move 6s linear infinite;
+}
+
+@keyframes scan-line-move {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(4px);
+  }
+}
+
+/* Hologram flicker effect */
+.hologram-flicker {
+  animation: hologram-flicker 3s ease-in-out infinite;
+}
+
+@keyframes hologram-flicker {
+  0% {
+    opacity: 0.95;
+  }
+  15% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.97;
+  }
+  45% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.98;
+  }
+  75% {
+    opacity: 0.96;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.95;
+  }
+}
+
+/* Scrolling data stream pattern */
+.data-stream {
+  position: relative;
+  overflow: hidden;
+}
+
+.data-stream::before {
+  content: "01001010 11010011 00101110 10110100 01101001 11001010 00110101 10101100 ";
+  position: absolute;
+  inset: 0;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 10px;
+  line-height: 1.6;
+  color: rgba(99, 102, 241, 0.06);
+  word-break: break-all;
+  overflow: hidden;
+  white-space: pre-wrap;
+  pointer-events: none;
+  z-index: 0;
+  animation: data-stream-scroll 20s linear infinite;
+}
+
+@keyframes data-stream-scroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+/* ── Transition Utilities ────────────────────── */
+
+.glass-transition {
+  transition:
+    background 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    backdrop-filter 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-transition-slow {
+  transition:
+    background 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    backdrop-filter 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Interactive States ──────────────────────── */
+
+.glass-interactive {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-interactive:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(99, 102, 241, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.glass-interactive:active {
+  transform: translateY(0) scale(0.99);
+  transition-duration: 0.1s;
+}

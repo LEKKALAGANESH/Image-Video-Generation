@@ -1,0 +1,13 @@
+/* ─────────────────────────────────────────────
+ * AuraGen — Master Style Entry Point
+ * Imports the complete SASS token scaling system
+ * ───────────────────────────────────────────── */
+
+/* ── Token Foundation ──────────────────────── */
+@use 'tokens' as *;
+
+/* ── Component Library ─────────────────────── */
+@use 'components';
+
+/* ── Grid & Layout System ──────────────────── */
+@use 'Grid';

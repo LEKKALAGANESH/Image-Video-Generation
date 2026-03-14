@@ -1,0 +1,7 @@
+# AuraGen -- Root Requirements
+# Backend dependencies are in backend/requirements.txt
+#
+# Install all:
+#   pip install -r backend/requirements.txt
+
+-r backend/requirements.txt

@@ -1,0 +1,74 @@
+# ── Python ────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+venv/
+*.pyo
+
+# ── Environment / Secrets ─────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Node / Next.js ────────────────────────────
+node_modules/
+.next/
+out/
+.turbo/
+.vercel/
+frontend/.next/
+frontend/node_modules/
+
+# ── Model Weights (large files) ───────────────
+backend/models/flux/
+backend/models/wan/
+backend/models/controlnet/
+backend/models/sam2/
+!backend/models/**/.gitkeep
+*.safetensors
+*.ckpt
+*.bin
+!requirements*.txt
+
+# ── Generated Outputs ─────────────────────────
+backend/outputs/*.png
+backend/outputs/*.mp4
+backend/outputs/*.wav
+backend/outputs/*.jpg
+backend/outputs/*.jpeg
+backend/outputs/*.webp
+backend/outputs/*.webm
+backend/outputs/masks/
+backend/outputs/previews/
+backend/outputs/thumbnails/
+
+# ── Logs & Reports ────────────────────────────
+*.log
+audit_report.json
+fulfillment_check.txt
+
+# ── IDE / Editor ──────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS Files ──────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+# ── Claude Code ───────────────────────────────
+.claude/
+backend/0.0.28
+backend/0.25.0
+backend/0.30.0
+backend/0.43.0

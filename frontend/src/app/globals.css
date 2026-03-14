@@ -1,0 +1,324 @@
+@import "../styles/global.css";
+@import "../styles/App.scss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────
+ * AuraGen — Global Styles
+ * Liquid Glass Theme
+ * ───────────────────────────────────────────── */
+
+/* ── base resets ────────────────────────────── */
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-aura-dark text-aura-text-primary;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  ::selection {
+    background: rgba(99, 102, 241, 0.3);
+    color: #fff;
+  }
+}
+
+/* ── liquid glass panels ────────────────────── */
+
+@layer components {
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-panel-hover {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-panel-hover:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      0 0 0 1px rgba(99, 102, 241, 0.1);
+    background: rgba(255, 255, 255, 0.035);
+  }
+
+  .glass-input {
+    @apply w-full rounded-xl px-4 py-3 text-sm outline-none transition-all duration-200;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.28);
+  }
+
+  .glass-input:focus {
+    border-color: rgba(99, 102, 241, 0.4);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .glass-slider {
+    @apply w-full h-1.5 rounded-full appearance-none cursor-pointer;
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #6366f1;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+  }
+
+  .glass-slider::-webkit-slider-thumb:hover {
+    box-shadow: 0 0 16px rgba(99, 102, 241, 0.7);
+  }
+
+  .glass-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #6366f1;
+    border: none;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    cursor: pointer;
+  }
+}
+
+/* ── neural pulse animation ─────────────────── */
+
+@keyframes neural-ring-expand {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+@keyframes neural-core-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 20px rgba(99, 102, 241, 0.6),
+      0 0 60px rgba(99, 102, 241, 0.2);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow:
+      0 0 30px rgba(129, 140, 248, 0.8),
+      0 0 80px rgba(129, 140, 248, 0.3);
+  }
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-80px) translateX(var(--drift, 20px)) scale(0);
+    opacity: 0;
+  }
+}
+
+.neural-ring {
+  animation: neural-ring-expand 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.neural-core {
+  animation: neural-core-pulse 2s ease-in-out infinite;
+}
+
+.neural-particle {
+  animation: particle-float 3s ease-out infinite;
+}
+
+/* ── glass shimmer gradient ─────────────────── */
+
+.glass-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: glass-shimmer 8s ease-in-out infinite;
+}
+
+@keyframes glass-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ── scrollbar styling ──────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.08) transparent;
+}
+
+/* ── glow text effect ───────────────────────── */
+
+.glow-text {
+  text-shadow:
+    0 0 10px rgba(99, 102, 241, 0.5),
+    0 0 40px rgba(99, 102, 241, 0.2);
+}
+
+.glow-text-pulse {
+  text-shadow:
+    0 0 10px rgba(167, 139, 250, 0.5),
+    0 0 40px rgba(167, 139, 250, 0.2);
+}
+
+/* ── canvas utilities ───────────────────────── */
+
+.canvas-grab {
+  cursor: grab;
+}
+
+.canvas-grab:active {
+  cursor: grabbing;
+}
+
+/* ── Global Accessibility ────────────────────── */
+
+/* Focus ring for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid rgba(99, 102, 241, 0.7);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove focus ring for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Responsive Base Sizing ──────────────────── */
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 375px) {
+  html { font-size: 14px; }
+}
+
+@media (min-width: 768px) {
+  html { font-size: 15px; }
+}
+
+@media (min-width: 1280px) {
+  html { font-size: 16px; }
+}
+
+@media (min-width: 1920px) {
+  html { font-size: 17px; }
+}
+
+@media (min-width: 2560px) {
+  html { font-size: 18px; }
+}
+
+/* Touch-friendly tap targets on mobile */
+@media (max-width: 768px) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  input, textarea, select {
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
+}
+
+/* ── Screen reader only utility ──────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
